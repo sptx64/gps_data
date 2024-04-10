@@ -90,8 +90,10 @@ if file_up :
     residual = df[df.columns[-1]].str.split(',',expand=True)
     df = df[df.columns[:-2]]
     df = pd.concat([df, residual], axis=1)
-    df[7], df[8] = df[7].astype(float), df[8].astype(float)
-    col_7 = [ x + y/10 if (isinstance(x, int) & isinstance(y, int)) else x for x,y in zip(df[7],df[8]) ]
+
+    list_nb = [str(x) for x in range(0,100)]
+    
+    col_7 = [ f"{x}.{y}" if ((x in list_nb) & (y in list_nb)) else x for x,y in zip(df[7],df[8]) ]
     col_7
     df[7] = col_7
     
