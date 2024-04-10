@@ -76,7 +76,9 @@ def line_treatment(dfl, fname) :
     res.append([0 if i < 4 else "" for i in range(len(column_names))])
     res.append([0 if i < 4 else "" for i in range(len(column_names))])
     res[-1][4]="END"
-
+    dp = pd.DataFrame(res)
+    st.dataframe(dp)
+    
     return pd.DataFrame(res)
 
 
