@@ -7,7 +7,7 @@ import numpy as np
 def point_treatment(dfp, fname) :
     dfp["str"]=1
     dfp.loc[dfp["str"].isna(), "str"]=0
-    cn = ["str", "Northing", "Easting", "Elevation", "Point Name", 1, 2, 4, 5, 6, 7, 8, 9, 10, 11]
+    cn = ["str", "Northing", "Easting", "Elevation", "Point Name", 1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     column_names = [ x for x in cn if x in dfp ]
     dfp = dfp[column_names]
 
@@ -122,6 +122,7 @@ if file_up :
     c1, c2 = st.columns(2)
     if not df_point.empty :
         df_point_clean = point_treatment(df_point, fname)
+        all_points_csv = df_point_clean[[4,1,2,3,5,6,7,8,9,10,11,12,13]]
         df_point_clean
         c1.download_button("Download point file", convert_df(df_point_clean), f"p{fname}.csv", "text/csv", key='download-csv-point', use_container_width=True)
 
