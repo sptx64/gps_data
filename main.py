@@ -88,7 +88,7 @@ file_up = tab1.file_uploader("Upload your .csv here", type=["CSV"])
 if file_up :
     fname=file_up.name
     df = pd.read_csv(file_up, sep=";")
-    with tab1.expander("input file") :
+    with tab2.expander("input file") :
         df
     
     residual = df[df.columns[-1]].str.split(',',expand=True)
