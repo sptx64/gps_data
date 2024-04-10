@@ -78,8 +78,9 @@ def line_treatment(dfl, fname) :
     res[-1][4]="END"
     dp = pd.DataFrame(res)
     st.dataframe(dp)
-    dp[1]
+    
     for i in range(1,4) :
+        [ str(x).replace(",",".") for x in df[i] ],
         dp[i] = [ str(x).replace(",",".") for x in df[i] ]
     st.dataframe(dp)
     
