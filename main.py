@@ -41,7 +41,7 @@ def point_treatment(dfp, fname) :
     for i in range(1,4) :
         dp[i] = [ str(x).replace(",",".") if isinstance(x, str) else x for x in dp[i] ]
 
-    return pd.DataFrame(res)
+    return dp
 
 
 def line_treatment(dfl, fname) :
