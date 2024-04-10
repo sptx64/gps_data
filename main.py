@@ -7,7 +7,8 @@ import numpy as np
 def point_treatment(dfp, fname) :
     dfp["str"]=1
     dfp.loc[dfp["str"].isna(), "str"]=0
-    column_names = ["str", "Northing", "Easting", "Elevation", "Point Name", 1, 2, 4, 5, 6, 7, 8, 9, 10, 11]
+    cn = ["str", "Northing", "Easting", "Elevation", "Point Name", 1, 2, 4, 5, 6, 7, 8, 9, 10, 11]
+    column_names = [ x for x in cn if x in dfp ]
     dfp = dfp[column_names]
 
     res=[]
