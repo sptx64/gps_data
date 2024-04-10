@@ -37,6 +37,10 @@ def point_treatment(dfp, fname) :
     res.append([0 if i < 4 else "" for i in range(len(column_names))])
     res[-1][4]="END"
 
+    dp = pd.DataFrame(res)    
+    for i in range(1,4) :
+        dp[i] = [ str(x).replace(",",".") if isinstance(x, str) else x for x in dp[i] ]
+
     return pd.DataFrame(res)
 
 
