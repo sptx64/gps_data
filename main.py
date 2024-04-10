@@ -42,7 +42,7 @@ def point_treatment(dfp, fname) :
 
 def line_treatment(dfl, fname) :
     dict_str = {"HA":1, "LR":2, "LJ":3, "LT":4, "S_Fo":5, "S_Mo":6, "S_fa":7, "BDR":8}
-    dfl.loc[:, "str"]=dfl["Point Code"].map(dict_str)
+    dfl["str"]=dfl["Point Code"].map(dict_str)
 
     dfl.loc[dfl["str"].isna(), "str"]=8
     column_names = ["str", "Northing", "Easting", "Elevation", "Point Name", 1, 2, 3, 4, "Point Code"]
@@ -118,8 +118,10 @@ if file_up :
     c1, c2 = st.columns(2)
     if not df_point.empty :
         df_point_clean = point_treatment(df_point, fname)
+        df_point_clean
         c1.download_button("Download point file", convert_df(df_point_clean), f"p{fname}.csv", "text/csv", key='download-csv-point', use_container_width=True)
 
     if not df_line.empty :
         df_line_clean = line_treatment(df_line, fname)
+        df_line_clean
         c2.download_button("Download line file", convert_df(df_line_clean), f"l{fname}.csv", "text/csv", key='download-csv-line', use_container_width=True)
