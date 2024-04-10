@@ -91,8 +91,8 @@ if file_up :
     df = df[df.columns[:-2]]
     df = pd.concat([df, residual], axis=1)
 
-    col_5 = [ x + y/10 if (isinstance(x, int) & isinstance(y, int)) else x for x,y in zip(df[5],df[6]) ]
-    col_5
+    col_7 = [ x + y/10 if (isinstance(x, int) & isinstance(y, int)) else x for x,y in zip(df[7],df[8]) ]
+    df[7] = col_7
     
     with st.expander("cleaned file") :
         df
