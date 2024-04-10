@@ -80,7 +80,7 @@ def line_treatment(dfl, fname) :
     st.dataframe(dp)
     dp[1]
     for i in range(1,4) :
-        dp[i] = 1 #[ x.replace(",",".") if isinstance(x, str) else x for x in df[i]]
+        dp[i] = [ x.replace(",",".") for x in df[i] ]
     st.dataframe(dp)
     
     return pd.DataFrame(res)
