@@ -80,9 +80,8 @@ def line_treatment(dfl, fname) :
     
     for i in range(1,4) :
         dp[i] = [ str(x).replace(",",".") if isinstance(x, str) else x for x in dp[i] ]
-    st.dataframe(dp)
     
-    return pd.DataFrame(res)
+    return dp
 
 
 "# Convert PDF GPS Data"
