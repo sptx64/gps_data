@@ -85,10 +85,13 @@ file_up = st.file_uploader("Upload your .csv here", type=["CSV"])
 if file_up :
     fname=file_up.name
     df = pd.read_csv(file_up, sep=";")
-
+    with st.expander("input file") :
+        df
     residual = df[df.columns[-1]].str.split(',',expand=True)
     df = df[df.columns[:-2]]
     df = pd.concat([df, residual], axis=1)
+    with st.expander("cleaned file") :
+        df
     df_line, df_point = df[df["Point Name"].str.startswith("Line")], df[~df["Point Name"].str.startswith("Line")]
 
     def convert_df(df):
