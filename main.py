@@ -90,6 +90,10 @@ if file_up :
     residual = df[df.columns[-1]].str.split(',',expand=True)
     df = df[df.columns[:-2]]
     df = pd.concat([df, residual], axis=1)
+
+    col_5 = [ x + y/10 if (isinstance(x, int) & isinstance(y, int)) else x for x,y in zip(df[5],df[6]) ]
+    col_5
+    
     with st.expander("cleaned file") :
         df
     df_line, df_point = df[df["Point Name"].str.startswith("Line")], df[~df["Point Name"].str.startswith("Line")]
