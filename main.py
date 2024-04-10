@@ -81,13 +81,14 @@ def line_treatment(dfl, fname) :
 
 
 "# Convert PDF GPS Data"
-st.info("GPS input data shall always be the same format. Will not work if only lines or only points in the file.")
-file_up = st.file_uploader("Upload your .csv here", type=["CSV"])
+tab1, tab2 = st.tabs(["User interface", "Dataframes"])
+tab1.info("GPS input data shall always be the same format. Will not work if only lines or only points in the file.")
+file_up = tab1.file_uploader("Upload your .csv here", type=["CSV"])
 
 if file_up :
     fname=file_up.name
     df = pd.read_csv(file_up, sep=";")
-    with st.expander("input file") :
+    with tab1.expander("input file") :
         df
     
     residual = df[df.columns[-1]].str.split(',',expand=True)
@@ -102,7 +103,7 @@ if file_up :
     
 
     
-    with st.expander("cleaned file") :
+    with tab2.expander("cleaned file") :
         df
     
     df_line, df_point = df[df["Point Name"].str.startswith("Line")], df[~df["Point Name"].str.startswith("Line")]
