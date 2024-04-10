@@ -44,7 +44,7 @@ def line_treatment(dfl, fname) :
     dfl["str"]=dfl["Point Code"].map(dict_str)
 
     dfl.loc[dfl["str"].isna(), "str"]=0
-    column_names = ["str", "Northing", "Easting", "Elevation", "Point Name", 1, 2, 4, "Point Code"]
+    column_names = ["str", "Northing", "Easting", "Elevation", "Point Name", 1, 2, 3, 4, "Point Code"]
     dfl = dfl[column_names]
 
     res=[]
@@ -80,6 +80,7 @@ def line_treatment(dfl, fname) :
 
 
 "# Convert PDF GPS Data"
+st.info("GPS input data shall always be the same format. Will not work if only lines or only points in the file.")
 file_up = st.file_uploader("Upload your .csv here", type=["CSV"])
 
 if file_up :
@@ -87,18 +88,22 @@ if file_up :
     df = pd.read_csv(file_up, sep=";")
     with st.expander("input file") :
         df
+    
     residual = df[df.columns[-1]].str.split(',',expand=True)
     df = df[df.columns[:-2]]
     df = pd.concat([df, residual], axis=1)
 
     list_nb = [str(x) for x in range(0,100)]
-    
+
     col_7 = [ f"{x}.{y}" if ((x in list_nb) & (y in list_nb)) else x for x,y in zip(df[7],df[8]) ]
-    col_7
     df[7] = col_7
+    df = df.drop(columns=[8])
+    
+
     
     with st.expander("cleaned file") :
         df
+    
     df_line, df_point = df[df["Point Name"].str.startswith("Line")], df[~df["Point Name"].str.startswith("Line")]
 
     def convert_df(df):
