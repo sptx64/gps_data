@@ -42,7 +42,7 @@ def point_treatment(dfp, fname) :
 
 def line_treatment(dfl, fname) :
     dict_str = {"HA":1, "LR":2, "LJ":3, "LT":4, "S_Fo":5, "S_Mo":6, "S_fa":7, "BDR":8}
-    dfl["str"]=dfl["Point Code"].map(dict_str)
+    dfl.loc[:, "str"]=dfl["Point Code"].map(dict_str)
 
     dfl.loc[dfl["str"].isna(), "str"]=8
     column_names = ["str", "Northing", "Easting", "Elevation", "Point Name", 1, 2, 3, 4, "Point Code"]
