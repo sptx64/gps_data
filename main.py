@@ -92,6 +92,7 @@ if file_up :
     df = pd.concat([df, residual], axis=1)
 
     col_7 = [ x + y/10 if (isinstance(x, int) & isinstance(y, int)) else x for x,y in zip(df[7],df[8]) ]
+    col_7
     df[7] = col_7
     
     with st.expander("cleaned file") :
