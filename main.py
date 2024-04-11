@@ -134,8 +134,8 @@ if file_up :
         df_line_clean
         all_lines=df_line_clean[[4,1,2,3,5,7,6,9]]
         all_lines.columns = ["Point Ligne", "Y", "X", "Z","Chantier","Niveau","Date","Horizon"]
+        all_lines = all_lines[1:]
+        all_lines = all_lines[(all_lines["X"]!=0)]# & (all_lines["X"]!=None)]
         all_lines
-        all_lines = all_lines[(all_lines["X"]!=0)&(all_lines["X"])]# & (all_lines["X"]!=None)]
-        
 
         c2.download_button("Download line file", convert_df(df_line_clean), f"l{fname}.csv", "text/csv", key='download-csv-line', use_container_width=True)
