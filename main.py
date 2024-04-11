@@ -247,6 +247,7 @@ if file_up :
         df_line_clean
         list_str_clean_line = []
         list_chantier, list_niv = df_point_clean[5].unique(), df_point_clean[7].unique()
+        list_chantier,list_niv
 
         for chantier in list_chantier :
             for niv in list_niv :
