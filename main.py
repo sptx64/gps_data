@@ -244,10 +244,8 @@ if file_up :
         # df_line_clean = line_treatment(df_line, fname)
         df_line_clean = line_cleaning(df_line, fname)
         df_line_clean.columns = [x for x in range(len(df_line_clean.columns))]
-        df_line_clean
         list_str_clean_line = []
         list_chantier, list_niv = df_line_clean[5].unique(), df_line_clean[7].unique()
-        list_chantier,list_niv
 
         for chantier in list_chantier :
             for niv in list_niv :
@@ -257,11 +255,10 @@ if file_up :
 
         list_str_clean_line
 
-        
         all_lines=df_line_clean[[4,1,2,3,5,7,6,9]]
         all_lines.columns = ["Point Ligne", "Y", "X", "Z","Chantier","Niveau","Date","Horizon"]
         all_lines = all_lines[1:]
-        all_lines = all_lines[(all_lines["X"]!=0)]# & (all_lines["X"]!=None)]
+        all_lines = all_lines[(all_lines["X"]!=0)] # & (all_lines["X"]!=None)]
         
 
         c2.download_button("Download line file", convert_df(df_line_clean), f"l{fname}.csv", "text/csv", key='download-csv-line', use_container_width=True)
