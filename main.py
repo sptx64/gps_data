@@ -123,6 +123,8 @@ if file_up :
     if not df_point.empty :
         df_point_clean = point_treatment(df_point, fname)
         all_points = df_point_clean[[4,1,2,3,5,6,7,8,9,10,11,12,13,14]]
+        df_point_clean
+        all_points
         all_points.columns = ["Echantillon","Y","X","Z","Chantier","Niveau","Date",
                               "Geologie","Observation","long","front","Litho", "Type",
                               "alteration","Ocurrence","Indice"]
