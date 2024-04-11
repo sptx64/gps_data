@@ -122,8 +122,12 @@ if file_up :
     c1, c2 = st.columns(2)
     if not df_point.empty :
         df_point_clean = point_treatment(df_point, fname)
-        all_points_csv = df_point_clean[[4,1,2,3,5,6,7,8,9,10,11,12,13]]
-        df_point_clean
+        all_points = df_point_clean[[4,1,2,3,5,6,7,8,9,10,11,12,13,14]]
+        all_points.columns = ["Echantillon","Y","X","Z","Chantier","Niveau","Date",
+                              "Geologie","Observation","long","front","Litho", "Type",
+                              "alteration","Ocurrence","Indice"]
+        all_points
+
         c1.download_button("Download point file", convert_df(df_point_clean), f"p{fname}.csv", "text/csv", key='download-csv-point', use_container_width=True)
 
     if not df_line.empty :
