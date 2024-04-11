@@ -126,8 +126,7 @@ if file_up :
         df_point_clean
         all_points
         all_points.columns = ["Echantillon","Y","X","Z","Chantier","Niveau","Date",
-                              "Geologie","Observation","long","front","Litho", "Type",
-                              "alteration","Ocurrence","Indice"]
+                              "Geologie","Observation","long front","Litho", "Type alteration","Ocurrence","Indice"]
         all_points
 
         c1.download_button("Download point file", convert_df(df_point_clean), f"p{fname}.csv", "text/csv", key='download-csv-point', use_container_width=True)
