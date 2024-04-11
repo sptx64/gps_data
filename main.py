@@ -135,13 +135,59 @@ def line_treatment(dfl, fname) :
     return dp
 
 
+def line_cleaning(dfl, fname):
+    dict_str = {"HA":1, "LR":2, "LJ":3, "LT":4, "S_Fo":5, "S_Mo":6, "S_fa":7, "BDR":8}
+    dfl["str"]=dfl["Point Code"].map(dict_str)
+
+    dfl.loc[dfl["str"].isna(), "str"]=8
+    column_names = ["str", "Northing", "Easting", "Elevation", "Point Name", 1, 2, 3, 4, "Point Code"]
+    return dfl[column_names]
+
+
+def line_str_format(dfl, fname) :
+    column_names=dfl.columns
+    res=[]
+    first_line=[]
+    fdate=dfl[2].values[0]
+    for i in range(len(column_names)) :
+        if i == 0 :
+            first_line.append(fname)
+        elif i == 1 :
+            first_line.append(fdate)
+        else :
+            first_line.append("")
+    res.append(first_line)
+
+
+    second_line=[0 if i < 4 else "" for i in range(len(column_names))]
+    res.append(second_line)
+
+    point_code = None
+    for i in range(len(dfl)) :
+        row=list(dfl.iloc[i].values)
+        if (row[-1] != point_code) & (point_code != None) :
+            res.append([0 if i < 4 else "" for i in range(len(column_names))])
+        res.append(row)
+        point_code = row[-1]
+
+    res.append([0 if i < 4 else "" for i in range(len(column_names))])
+    res.append([0 if i < 4 else "" for i in range(len(column_names))])
+    res[-1][4]="END"
+    dp = pd.DataFrame(res)
+    
+    for i in range(1,4) :
+        dp[i] = [ str(x).replace(",",".") if isinstance(x, str) else x for x in dp[i] ]
+    return dp
+
+
+
 "# Convert PDF GPS Data"
 tab1, tab2 = st.tabs(["User interface", "Dataframes"])
 tab1.info("GPS input data shall always be the same format. Will not work if only lines or only points in the file.")
 file_up = tab1.file_uploader("Upload your .csv here", type=["CSV"])
 
 if file_up :
-    fname=file_up.name
+    fname=file_up.name.replace(".csv","")
     df = pd.read_csv(file_up, sep=";")
     with tab2.expander("input file") :
         df
@@ -191,13 +237,17 @@ if file_up :
         all_points = all_points[1:]
         all_points = all_points[(all_points["X"]!=0)]
 
-        
-
-        
         c1.download_button("Download point file", convert_df(df_point_clean), f"p{fname}.csv", "text/csv", key='download-csv-point', use_container_width=True)
 
     if not df_line.empty :
-        df_line_clean = line_treatment(df_line, fname)
+        # df_line_clean = line_treatment(df_line, fname)
+        df_line_clean = line_cleaning(df_line, fname)
+        df_line_clean.columns = [x for x in range(len(df_line_clean.columns))]
+        df_line_clean
+        list_str_clean = []
+        list_chantier, list_niv = df_point_clean[5].unique(), df_point_clean[6].unique()
+
+        
         
         all_lines=df_line_clean[[4,1,2,3,5,7,6,9]]
         all_lines.columns = ["Point Ligne", "Y", "X", "Z","Chantier","Niveau","Date","Horizon"]
