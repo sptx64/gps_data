@@ -57,7 +57,9 @@ def point_cleaning(dfp, fname) :
 def point_str_format(dfp, fname) :
     first_line=[]
     res=[]
-
+    
+    column_names=dfp.columns
+    
     fdate=dfp[4].values[0]
     for i in range(len(column_names)) :
         if i == 0 :
@@ -81,7 +83,7 @@ def point_str_format(dfp, fname) :
     res.append([0 if i < 4 else "" for i in range(len(column_names))])
     res[-1][4]="END"
 
-    dp = pd.DataFrame(res)    
+    dp = pd.DataFrame(res)
     for i in range(1,4) :
         dp[i] = [ str(x).replace(",",".") if isinstance(x, str) else x for x in dp[i] ]
 
@@ -171,11 +173,22 @@ if file_up :
         df_point_clean = point_cleaning(df_point, fname)
         df_point_clean.columns = [x for x in range(len(df_point_clean.columns))]
         df_point_clean
+        list_str_clean = []
+        list_chantier, list_niv = df_point_clean[5].unique(), df_point_clean[6].unique()
         
+        for chantier in list_chantier :
+            for niv in list_niv :
+                df_nc = df_point_clean[(df_point_clean[5] == chantier) & (df_point_clean[6] == niv)]
+                if not df_nc.empty :
+                    list_str_clean.append(point_str_format(df_nc, fname))
+
+        list_str_clean
         all_points = df_point_clean[[4,1,2,3,5,6,7,8,9,10,11,12,13,14]]
         all_points.columns = ["Echantillon","Y","X","Z","Chantier","Niveau","Date",
                               "Geologie","Observation","long front","Litho", "Type alteration",
                               "Ocurrence","Indice"]
+
+        
         all_points = all_points[1:]
         all_points = all_points[(all_points["X"]!=0)]
 
