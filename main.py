@@ -186,82 +186,74 @@ tab1.info("GPS input data shall always be the same format. Will not work if only
 file_up = tab1.file_uploader("Upload your .csv here", type=["CSV"])
 
 if file_up :
-    fname=file_up.name.replace(".csv","")
-    df = pd.read_csv(file_up, sep=";")
-    with tab2.expander("input file") :
-        df
-    
-    residual = df[df.columns[-1]].str.split(',',expand=True)
-    df = df[df.columns[:-2]]
-    df = pd.concat([df, residual], axis=1)
-
-    list_nb = [str(x) for x in range(0,100)]
-
-    col_7 = [ f"{x}.{y}" if ((x in list_nb) & (y in list_nb)) else x for x,y in zip(df[7],df[8]) ]
-    df[7] = col_7
-    df = df.drop(columns=[8])
-    
-
-    
-    with tab2.expander("cleaned file") :
+	fname=file_up.name.replace(".csv","")
+	df = pd.read_csv(file_up, sep=";")
+	
+	with tab2.expander("input file") :
 		df
-		
+	
+	residual = df[df.columns[-1]].str.split(',',expand=True)
+	df = df[df.columns[:-2]]
+	df = pd.concat([df, residual], axis=1)
+	
+	list_nb = [str(x) for x in range(0,100)]
+	
+	col_7 = [ f"{x}.{y}" if ((x in list_nb) & (y in list_nb)) else x for x,y in zip(df[7],df[8]) ]
+	df[7] = col_7
+	df = df.drop(columns=[8])
+	
+	with tab2.expander("cleaned file") :
+		df
+	
 	df_line, df_point = df[df["Point Name"].str.startswith("Line")], df[~df["Point Name"].str.startswith("Line")]
 	def convert_df(df):
 		return df.to_csv(index=False, header=False).encode('utf-8')
-
+	
 	c1, c2 = st.columns(2)
-    if not df_point.empty :
+	dict_str_clean_pt = {}
+	if not df_point.empty :
         # df_point_clean = point_treatment(df_point, fname)
         # df_point_clean
-        df_point_clean = point_cleaning(df_point, fname)
-        df_point_clean.columns = [x for x in range(len(df_point_clean.columns))]
-        list_str_clean_pt = []
-        list_chantier, list_niv = df_point_clean[5].unique(), df_point_clean[6].unique()
-        dict_str_clean_pt = {}
-        for chantier in list_chantier :
-            for niv in list_niv :
-                df_nc = df_point_clean[(df_point_clean[5] == chantier) & (df_point_clean[6] == niv)]
-                if not df_nc.empty :
-                    dict_str_clean_pt[f"{chantier}_{niv}"] = {"df":point_str_format(df_nc, fname), "chantier":chantier, "niveau":niv}
-                    #list_str_clean_pt.append(point_str_format(df_nc, fname))
+		
+		df_point_clean = point_cleaning(df_point, fname)
+		df_point_clean.columns = [x for x in range(len(df_point_clean.columns))]
+		list_chantier, list_niv = df_point_clean[5].unique(), df_point_clean[6].unique()
+		for chantier in list_chantier :
+			for niv in list_niv :
+				df_nc = df_point_clean[(df_point_clean[5] == chantier) & (df_point_clean[6] == niv)]
+				if not df_nc.empty :
+					dict_str_clean_pt[f"{chantier}_{niv}"] = {"df":point_str_format(df_nc, fname), "chantier":chantier, "niveau":niv}
+		
+		dict_str_clean_pt
 
-        dict_str_clean_pt
-        
-        all_points = df_point_clean[[4,1,2,3,5,6,7,8,9,10,11,12,13,14]]
-        all_points.columns = ["Echantillon","Y","X","Z","Chantier","Niveau","Date",
-                              "Geologie","Observation","long front","Litho", "Type alteration",
-                              "Ocurrence","Indice"]
+		all_points = df_point_clean[[4,1,2,3,5,6,7,8,9,10,11,12,13,14]]
+		all_points.columns = ["Echantillon","Y","X","Z","Chantier","Niveau","Date", "Geologie","Observation","long front","Litho", "Type alteration", "Ocurrence","Indice"]
+		
+		all_points = all_points[1:]
+		all_points = all_points[(all_points["X"]!=0)]
+		c1.download_button("Download point file", convert_df(df_point_clean), f"p{fname}.csv", "text/csv", key='download-csv-point', use_container_width=True)
 
-        
-        all_points = all_points[1:]
-        all_points = all_points[(all_points["X"]!=0)]
 
-        c1.download_button("Download point file", convert_df(df_point_clean), f"p{fname}.csv", "text/csv", key='download-csv-point', use_container_width=True)
-
-    if not df_line.empty :
-        # df_line_clean = line_treatment(df_line, fname)
-        df_line_clean = line_cleaning(df_line, fname)
-        df_line_clean.columns = [x for x in range(len(df_line_clean.columns))]
-        list_chantier, list_niv = df_line_clean[5].unique(), df_line_clean[7].unique()
-	
 	dict_str_clean_line = {}
-
-        for chantier in list_chantier :
-            for niv in list_niv :
-                df_nc = df_line_clean[(df_line_clean[5] == chantier) & (df_line_clean[7] == niv)]
-                if not df_nc.empty :
-                    dict_str_clean_line[f"{chantier}_{niv}"] = {"df":line_str_format(df_nc, fname), "chantier":chantier, "niveau":niv}
-                    # list_str_clean_line.append(line_str_format(df_nc, fname))
-
-        dict_str_clean_line
-
-        all_lines=df_line_clean[[4,1,2,3,5,7,6,9]]
-        all_lines.columns = ["Point Ligne", "Y", "X", "Z","Chantier","Niveau","Date","Horizon"]
-        all_lines = all_lines[1:]
-        all_lines = all_lines[(all_lines["X"]!=0)] # & (all_lines["X"]!=None)]
-	
-	c2.download_button("Download line file", convert_df(df_line_clean), f"l{fname}.csv", "text/csv", key='download-csv-line', use_container_width=True)
+	if not df_line.empty :
+		df_line_clean = line_cleaning(df_line, fname)
+		df_line_clean.columns = [x for x in range(len(df_line_clean.columns))]
+		list_chantier, list_niv = df_line_clean[5].unique(), df_line_clean[7].unique()
+		
+		for chantier in list_chantier :
+			for niv in list_niv :
+				df_nc = df_line_clean[(df_line_clean[5] == chantier) & (df_line_clean[7] == niv)]
+				if not df_nc.empty :
+					dict_str_clean_line[f"{chantier}_{niv}"] = {"df":line_str_format(df_nc, fname), "chantier":chantier, "niveau":niv}
+		
+		dict_str_clean_line
+		
+		all_lines=df_line_clean[[4,1,2,3,5,7,6,9]]
+		all_lines.columns = ["Point Ligne", "Y", "X", "Z","Chantier","Niveau","Date","Horizon"]
+		all_lines = all_lines[1:]
+		all_lines = all_lines[(all_lines["X"]!=0)] # & (all_lines["X"]!=None)]
+		
+		c2.download_button("Download line file", convert_df(df_line_clean), f"l{fname}.csv", "text/csv", key='download-csv-line', use_container_width=True)
 	
 	import io, zipfile
 	buf = io.BytesIO()
