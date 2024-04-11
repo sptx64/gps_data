@@ -206,7 +206,7 @@ if file_up :
     with tab2.expander("cleaned file") :
         df
     
-    df_line, df_point = df[df["Point Name"].str.startswith("Line")], df[~df["Point Name"].str.startswith("Line")]
+	df_line, df_point = df[df["Point Name"].str.startswith("Line")], df[~df["Point Name"].str.startswith("Line")]
 	
 	def convert_df(df):
 		return df.to_csv(index=False, header=False).encode('utf-8')
