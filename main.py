@@ -224,14 +224,16 @@ if file_up :
 				if not df_nc.empty :
 					dict_str_clean_pt[f"{chantier}_{niv}"] = {"df":point_str_format(df_nc, fname), "chantier":chantier, "niveau":niv}
 		
-		dict_str_clean_pt
+		with tab2.expander("points str"):
+			dict_str_clean_pt
 
 		all_points = df_point_clean[[4,1,2,3,5,6,7,8,9,10,11,12,13,14]]
 		all_points.columns = ["Echantillon","Y","X","Z","Chantier","Niveau","Date", "Geologie","Observation","long front","Litho", "Type alteration", "Ocurrence","Indice"]
 		
 		all_points = all_points[1:]
 		all_points = all_points[(all_points["X"]!=0)]
-		c1.download_button("Download point file", convert_df(df_point_clean), f"p{fname}.csv", "text/csv", key='download-csv-point', use_container_width=True)
+		with tab2.expander("all points"):
+			all_points
 
 
 	dict_str_clean_line = {}
@@ -246,15 +248,17 @@ if file_up :
 				if not df_nc.empty :
 					dict_str_clean_line[f"{chantier}_{niv}"] = {"df":line_str_format(df_nc, fname), "chantier":chantier, "niveau":niv}
 		
-		dict_str_clean_line
+		with tab2.expander("lines str"):
+			dict_str_clean_line
 		
 		all_lines=df_line_clean[[4,1,2,3,5,7,6,9]]
 		all_lines.columns = ["Point Ligne", "Y", "X", "Z","Chantier","Niveau","Date","Horizon"]
 		all_lines = all_lines[1:]
 		all_lines = all_lines[(all_lines["X"]!=0)] # & (all_lines["X"]!=None)]
 		
-		c2.download_button("Download line file", convert_df(df_line_clean), f"l{fname}.csv", "text/csv", key='download-csv-line', use_container_width=True)
-		
+		with tab2.expander("all lines"):
+			all_lines
+	
 	def convert_df(df):
 		return df.to_csv(index=False).encode('ISO-8859-1')
 	
