@@ -258,8 +258,8 @@ if file_up :
 	import io, zipfile
 	buf = io.BytesIO()
 	with zipfile.ZipFile(buf, "x") as csv_zip:
-		csv_zip.writestr("POINTS.csv", csv_col)
-		csv_zip.writestr("LIGNES.csv", csv)
+		csv_zip.writestr("POINTS.csv", all_points)
+		csv_zip.writestr("LIGNES.csv", all_lines)
 		for key in dict_str_clean_pt :
 			csv_zip.writestr(f"P_{key}.str", dict_str_clean_pt[key]["df"])
 		for key in dict_str_clean_line :
