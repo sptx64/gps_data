@@ -267,14 +267,14 @@ if file_up :
         c2.download_button("Download line file", convert_df(df_line_clean), f"l{fname}.csv", "text/csv", key='download-csv-line', use_container_width=True)
         
         import io, zipfile
-		buf = io.BytesIO()
-		with zipfile.ZipFile(buf, "x") as csv_zip:
+	buf = io.BytesIO()
+	with zipfile.ZipFile(buf, "x") as csv_zip:
             csv_zip.writestr("POINTS.csv", csv_col)
-			csv_zip.writestr("LIGNES.csv", csv)
+	    csv_zip.writestr("LIGNES.csv", csv)
             for key in dict_str_clean_pt :
                 csv_zip.writestr(f"P_{key}.str", dict_str_clean_pt[key]["df"])
 
             for key in dict_str_clean_line :
                 csv_zip.writestr(f"L_{key}.str", dict_str_clean_line[key]["df"])
 
-		st.download_button(label="Download zip(collars+all_catego)", data=buf.getvalue(), file_name="ac+collars.zip", mime="application/zip")
+	st.download_button(label="Download zip", data=buf.getvalue(), file_name="CSV+STR.zip", mime="application/zip")
