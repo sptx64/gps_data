@@ -5,8 +5,8 @@ import numpy as np
 
 
 def point_treatment(dfp, fname) :
-    dfp["str"]=1
-    dfp.loc[dfp["str"].isna(), "str"]=0
+	dfp["str"]=1
+	dfp.loc[dfp["str"].isna(), "str"]=0
     cn = ["str", "Northing", "Easting", "Elevation", "Point Name", 1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     column_names = [ x for x in cn if x in dfp ]
     dfp = dfp[column_names]
@@ -40,8 +40,8 @@ def point_treatment(dfp, fname) :
     dp = pd.DataFrame(res)    
     for i in range(1,4) :
         dp[i] = [ str(x).replace(",",".") if isinstance(x, str) else x for x in dp[i] ]
-
-    return dp
+	
+	return dp
 
 
 def point_cleaning(dfp, fname) :
@@ -209,10 +209,10 @@ if file_up :
     
     df_line, df_point = df[df["Point Name"].str.startswith("Line")], df[~df["Point Name"].str.startswith("Line")]
 
-    def convert_df(df):
-        return df.to_csv(index=False, header=False).encode('utf-8')
+	def convert_df(df):
+		return df.to_csv(index=False, header=False).encode('utf-8')
 
-    c1, c2 = st.columns(2)
+	c1, c2 = st.columns(2)
     if not df_point.empty :
         # df_point_clean = point_treatment(df_point, fname)
         # df_point_clean
@@ -268,12 +268,11 @@ if file_up :
 	import io, zipfile
 	buf = io.BytesIO()
 	with zipfile.ZipFile(buf, "x") as csv_zip:
-            csv_zip.writestr("POINTS.csv", csv_col)
-	    csv_zip.writestr("LIGNES.csv", csv)
-            for key in dict_str_clean_pt :
-                csv_zip.writestr(f"P_{key}.str", dict_str_clean_pt[key]["df"])
-
-            for key in dict_str_clean_line :
-                csv_zip.writestr(f"L_{key}.str", dict_str_clean_line[key]["df"])
+		csv_zip.writestr("POINTS.csv", csv_col)
+		csv_zip.writestr("LIGNES.csv", csv)
+		for key in dict_str_clean_pt :
+			csv_zip.writestr(f"P_{key}.str", dict_str_clean_pt[key]["df"])
+		for key in dict_str_clean_line :
+			csv_zip.writestr(f"L_{key}.str", dict_str_clean_line[key]["df"])
 
 	st.download_button(label="Download zip", data=buf.getvalue(), file_name="CSV+STR.zip", mime="application/zip")
