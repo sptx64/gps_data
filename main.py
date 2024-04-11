@@ -169,6 +169,7 @@ if file_up :
         # df_point_clean = point_treatment(df_point, fname)
         # df_point_clean
         df_point_clean = point_cleaning(df_point, fname)
+        df_point_clean.columns = [x for x in range(len(df_point_clean.columns))]
         df_point_clean
         
         all_points = df_point_clean[[4,1,2,3,5,6,7,8,9,10,11,12,13,14]]
