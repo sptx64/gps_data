@@ -44,6 +44,50 @@ def point_treatment(dfp, fname) :
     return dp
 
 
+def point_cleaning(dfp, fname) :
+    dfp["str"]=1
+    dfp.loc[dfp["str"].isna(), "str"]=0
+    cn = ["str", "Northing", "Easting", "Elevation", "Point Name", 1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    column_names = [ x for x in cn if x in dfp ]
+    dfp = dfp[column_names]
+
+
+
+def point_str_format(dfp, fname) :
+    first_line=[]
+    res=[]
+
+    fdate=dfp[4].values[0]
+    for i in range(len(column_names)) :
+        if i == 0 :
+            first_line.append(fname)
+        elif i == 1 :
+            first_line.append(fdate)
+        else :
+            first_line.append("")
+    res.append(first_line)
+
+
+    second_line=[0 if i < 4 else "" for i in range(len(column_names))]
+    res.append(second_line)
+
+
+    for i in range(len(dfp)) :
+        row=list(dfp.iloc[i].values)
+        res.append(row)
+        res.append([0 if i < 4 else "" for i in range(len(column_names))])
+
+    res.append([0 if i < 4 else "" for i in range(len(column_names))])
+    res[-1][4]="END"
+
+    dp = pd.DataFrame(res)    
+    for i in range(1,4) :
+        dp[i] = [ str(x).replace(",",".") if isinstance(x, str) else x for x in dp[i] ]
+
+    return dp
+
+
+
 def line_treatment(dfl, fname) :
     dict_str = {"HA":1, "LR":2, "LJ":3, "LT":4, "S_Fo":5, "S_Mo":6, "S_fa":7, "BDR":8}
     dfl["str"]=dfl["Point Code"].map(dict_str)
@@ -121,14 +165,18 @@ if file_up :
 
     c1, c2 = st.columns(2)
     if not df_point.empty :
-        df_point_clean = point_treatment(df_point, fname)
+        # df_point_clean = point_treatment(df_point, fname)
+        # df_point_clean
+        df_point_clean = point_cleaning(df_point, fname)
         df_point_clean
+        
         all_points = df_point_clean[[4,1,2,3,5,6,7,8,9,10,11,12,13,14]]
         all_points.columns = ["Echantillon","Y","X","Z","Chantier","Niveau","Date",
                               "Geologie","Observation","long front","Litho", "Type alteration",
                               "Ocurrence","Indice"]
         all_points = all_points[1:]
-        all_points = all_points[(all_points["X"]!=0)]# & (all_lines["X"]!=None)]
+        all_points = all_points[(all_points["X"]!=0)]
+
         
 
         
