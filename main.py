@@ -181,7 +181,7 @@ def line_str_format(dfl, fname) :
 
 
 "# Convert PDF GPS Data"
-tab1, tab2 = st.tabs(["User interface", "Dataframes"])
+tab1, tab2 = st.tabs(["User interface", "Dev"])
 tab1.info("GPS input data shall always be the same format. Will not work if only lines or only points in the file.")
 file_up = tab1.file_uploader("Upload your .csv here", type=["CSV"])
 
