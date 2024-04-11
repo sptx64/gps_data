@@ -218,16 +218,17 @@ if file_up :
         # df_point_clean
         df_point_clean = point_cleaning(df_point, fname)
         df_point_clean.columns = [x for x in range(len(df_point_clean.columns))]
-        list_str_clean = []
+        list_str_clean_pt = []
         list_chantier, list_niv = df_point_clean[5].unique(), df_point_clean[6].unique()
         
         for chantier in list_chantier :
             for niv in list_niv :
                 df_nc = df_point_clean[(df_point_clean[5] == chantier) & (df_point_clean[6] == niv)]
                 if not df_nc.empty :
-                    list_str_clean.append(point_str_format(df_nc, fname))
+                    list_str_clean_pt.append(point_str_format(df_nc, fname))
 
-        list_str_clean
+        list_str_clean_pt
+        
         all_points = df_point_clean[[4,1,2,3,5,6,7,8,9,10,11,12,13,14]]
         all_points.columns = ["Echantillon","Y","X","Z","Chantier","Niveau","Date",
                               "Geologie","Observation","long front","Litho", "Type alteration",
@@ -244,10 +245,17 @@ if file_up :
         df_line_clean = line_cleaning(df_line, fname)
         df_line_clean.columns = [x for x in range(len(df_line_clean.columns))]
         df_line_clean
-        list_str_clean = []
+        list_str_clean_line = []
         list_chantier, list_niv = df_point_clean[5].unique(), df_point_clean[7].unique()
 
-        
+        for chantier in list_chantier :
+            for niv in list_niv :
+                df_nc = df_line_clean[(df_line_clean[5] == chantier) & (df_line_clean[7] == niv)]
+                if not df_nc.empty :
+                    list_str_clean_line.append(line_str_format(df_nc, fname))
+
+        list_str_clean_line
+
         
         all_lines=df_line_clean[[4,1,2,3,5,7,6,9]]
         all_lines.columns = ["Point Ligne", "Y", "X", "Z","Chantier","Niveau","Date","Horizon"]
