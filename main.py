@@ -126,12 +126,13 @@ if file_up :
         all_points.columns = ["Echantillon","Y","X","Z","Chantier","Niveau","Date",
                               "Geologie","Observation","long front","Litho", "Type alteration",
                               "Ocurrence","Indice"]
-        
+        all_points
         c1.download_button("Download point file", convert_df(df_point_clean), f"p{fname}.csv", "text/csv", key='download-csv-point', use_container_width=True)
 
     if not df_line.empty :
         df_line_clean = line_treatment(df_line, fname)
         df_line_clean
+        
         all_lines=df_line_clean[[4,1,2,3,5,7,6,9]]
         all_lines.columns = ["Point Ligne", "Y", "X", "Z","Chantier","Niveau","Date","Horizon"]
         all_lines = all_lines[1:]
