@@ -254,10 +254,10 @@ if file_up :
 		all_lines = all_lines[(all_lines["X"]!=0)] # & (all_lines["X"]!=None)]
 		
 		c2.download_button("Download line file", convert_df(df_line_clean), f"l{fname}.csv", "text/csv", key='download-csv-line', use_container_width=True)
-
-    def convert_df(df):
-	    return df.to_csv(index=False).encode('ISO-8859-1')
-    
+		
+	def convert_df(df):
+		return df.to_csv(index=False).encode('ISO-8859-1')
+	
 	import io, zipfile
 	buf = io.BytesIO()
 	with zipfile.ZipFile(buf, "x") as csv_zip:
