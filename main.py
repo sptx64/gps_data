@@ -4,44 +4,43 @@ import pandas as pd
 import numpy as np
 
 
-def point_treatment(dfp, fname) :
-	dfp["str"]=1
-	dfp.loc[dfp["str"].isna(), "str"]=0
-    cn = ["str", "Northing", "Easting", "Elevation", "Point Name", 1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-    column_names = [ x for x in cn if x in dfp ]
-    dfp = dfp[column_names]
-
-    res=[]
-
-    first_line=[]
-    fdate=dfp[4].values[0]
-    for i in range(len(column_names)) :
-        if i == 0 :
-            first_line.append(fname)
-        elif i == 1 :
-            first_line.append(fdate)
-        else :
-            first_line.append("")
-    res.append(first_line)
-
-
-    second_line=[0 if i < 4 else "" for i in range(len(column_names))]
-    res.append(second_line)
-
-
-    for i in range(len(dfp)) :
-        row=list(dfp.iloc[i].values)
-        res.append(row)
-        res.append([0 if i < 4 else "" for i in range(len(column_names))])
-
-    res.append([0 if i < 4 else "" for i in range(len(column_names))])
-    res[-1][4]="END"
-
-    dp = pd.DataFrame(res)    
-    for i in range(1,4) :
-        dp[i] = [ str(x).replace(",",".") if isinstance(x, str) else x for x in dp[i] ]
+# def point_treatment(dfp, fname) :
+# 	dfp["str"]=1
+# 	dfp.loc[dfp["str"].isna(), "str"]=0
+# 	cn = ["str", "Northing", "Easting", "Elevation", "Point Name", 1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+# 	column_names = [ x for x in cn if x in dfp ]
+# 	dfp = dfp[column_names]
 	
-	return dp
+# 	res=[]
+# 	first_line=[]
+# 	fdate=dfp[4].values[0]
+# 	for i in range(len(column_names)) :
+#         if i == 0 :
+#             first_line.append(fname)
+#         elif i == 1 :
+#             first_line.append(fdate)
+#         else :
+#             first_line.append("")
+#     res.append(first_line)
+
+
+#     second_line=[0 if i < 4 else "" for i in range(len(column_names))]
+#     res.append(second_line)
+
+
+#     for i in range(len(dfp)) :
+#         row=list(dfp.iloc[i].values)
+#         res.append(row)
+#         res.append([0 if i < 4 else "" for i in range(len(column_names))])
+
+#     res.append([0 if i < 4 else "" for i in range(len(column_names))])
+#     res[-1][4]="END"
+
+#     dp = pd.DataFrame(res)    
+#     for i in range(1,4) :
+#         dp[i] = [ str(x).replace(",",".") if isinstance(x, str) else x for x in dp[i] ]
+	
+# 	return dp
 
 
 def point_cleaning(dfp, fname) :
@@ -91,48 +90,48 @@ def point_str_format(dfp, fname) :
 
 
 
-def line_treatment(dfl, fname) :
-    dict_str = {"HA":1, "LR":2, "LJ":3, "LT":4, "S_Fo":5, "S_Mo":6, "S_fa":7, "BDR":8}
-    dfl["str"]=dfl["Point Code"].map(dict_str)
+# def line_treatment(dfl, fname) :
+#     dict_str = {"HA":1, "LR":2, "LJ":3, "LT":4, "S_Fo":5, "S_Mo":6, "S_fa":7, "BDR":8}
+#     dfl["str"]=dfl["Point Code"].map(dict_str)
 
-    dfl.loc[dfl["str"].isna(), "str"]=8
-    column_names = ["str", "Northing", "Easting", "Elevation", "Point Name", 1, 2, 3, 4, "Point Code"]
-    dfl = dfl[column_names]
+#     dfl.loc[dfl["str"].isna(), "str"]=8
+#     column_names = ["str", "Northing", "Easting", "Elevation", "Point Name", 1, 2, 3, 4, "Point Code"]
+#     dfl = dfl[column_names]
 
-    res=[]
+#     res=[]
 
-    first_line=[]
-    fdate=dfl[2].values[0]
-    for i in range(len(column_names)) :
-        if i == 0 :
-            first_line.append(fname)
-        elif i == 1 :
-            first_line.append(fdate)
-        else :
-            first_line.append("")
-    res.append(first_line)
+#     first_line=[]
+#     fdate=dfl[2].values[0]
+#     for i in range(len(column_names)) :
+#         if i == 0 :
+#             first_line.append(fname)
+#         elif i == 1 :
+#             first_line.append(fdate)
+#         else :
+#             first_line.append("")
+#     res.append(first_line)
 
 
-    second_line=[0 if i < 4 else "" for i in range(len(column_names))]
-    res.append(second_line)
+#     second_line=[0 if i < 4 else "" for i in range(len(column_names))]
+#     res.append(second_line)
 
-    point_code = None
-    for i in range(len(dfl)) :
-        row=list(dfl.iloc[i].values)
-        if (row[-1] != point_code) & (point_code != None) :
-            res.append([0 if i < 4 else "" for i in range(len(column_names))])
-        res.append(row)
-        point_code = row[-1]
+#     point_code = None
+#     for i in range(len(dfl)) :
+#         row=list(dfl.iloc[i].values)
+#         if (row[-1] != point_code) & (point_code != None) :
+#             res.append([0 if i < 4 else "" for i in range(len(column_names))])
+#         res.append(row)
+#         point_code = row[-1]
 
-    res.append([0 if i < 4 else "" for i in range(len(column_names))])
-    res.append([0 if i < 4 else "" for i in range(len(column_names))])
-    res[-1][4]="END"
-    dp = pd.DataFrame(res)
+#     res.append([0 if i < 4 else "" for i in range(len(column_names))])
+#     res.append([0 if i < 4 else "" for i in range(len(column_names))])
+#     res[-1][4]="END"
+#     dp = pd.DataFrame(res)
     
-    for i in range(1,4) :
-        dp[i] = [ str(x).replace(",",".") if isinstance(x, str) else x for x in dp[i] ]
+#     for i in range(1,4) :
+#         dp[i] = [ str(x).replace(",",".") if isinstance(x, str) else x for x in dp[i] ]
     
-    return dp
+#     return dp
 
 
 def line_cleaning(dfl, fname):
