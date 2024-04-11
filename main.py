@@ -254,15 +254,18 @@ if file_up :
 		all_lines = all_lines[(all_lines["X"]!=0)] # & (all_lines["X"]!=None)]
 		
 		c2.download_button("Download line file", convert_df(df_line_clean), f"l{fname}.csv", "text/csv", key='download-csv-line', use_container_width=True)
-	
+
+    def convert_df(df):
+	    return df.to_csv(index=False).encode('ISO-8859-1')
+    
 	import io, zipfile
 	buf = io.BytesIO()
 	with zipfile.ZipFile(buf, "x") as csv_zip:
-		csv_zip.writestr("POINTS.csv", all_points)
-		csv_zip.writestr("LIGNES.csv", all_lines)
+		csv_zip.writestr("POINTS.csv", convert_df(all_points))
+		csv_zip.writestr("LIGNES.csv", convert_df(all_lines))
 		for key in dict_str_clean_pt :
-			csv_zip.writestr(f"P_{key}.str", dict_str_clean_pt[key]["df"])
+			csv_zip.writestr(f"P_{key}.str", convert_df(dict_str_clean_pt[key]["df"]))
 		for key in dict_str_clean_line :
-			csv_zip.writestr(f"L_{key}.str", dict_str_clean_line[key]["df"])
+			csv_zip.writestr(f"L_{key}.str", convert_df(dict_str_clean_line[key]["df"]))
 
 	st.download_button(label="Download zip", data=buf.getvalue(), file_name="CSV+STR.zip", mime="application/zip")
