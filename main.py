@@ -197,10 +197,11 @@ if file_up :
 	df = pd.concat([df, residual], axis=1)
 	
 	list_nb = [str(x) for x in range(0,100)]
-	
-	col_7 = [ f"{x}.{y}" if ((x in list_nb) & (y in list_nb)) else x for x,y in zip(df[7],df[8]) ]
-	df[7] = col_7
-	df = df.drop(columns=[8])
+
+	if (7 in df) & (8 in df) :
+		col_7 = [ f"{x}.{y}" if ((x in list_nb) & (y in list_nb)) else x for x,y in zip(df[7],df[8]) ]
+		df[7] = col_7
+		df = df.drop(columns=[8])
 	
 	with tab2.expander("cleaned file") :
 		df
