@@ -231,7 +231,7 @@ if file_up :
 		all_points = df_point_clean[[4,1,2,3,5,6,7,8,9,10,11,12,13,14]]
 		all_points.columns = ["Echantillon","Y","X","Z","Chantier","Niveau","Date", "Geologie","Observation","long front","Litho", "Type alteration", "Ocurrence","Indice"]
 		
-		all_points = all_points[1:]
+		#all_points = all_points[1:]
 		all_points = all_points[(all_points["X"]!=0)]
 		
 		for i in range(1,4) :
@@ -258,7 +258,7 @@ if file_up :
 		
 		all_lines=df_line_clean[[4,1,2,3,5,7,6,9]]
 		all_lines.columns = ["Point Ligne", "Y", "X", "Z","Chantier","Niveau","Date","Horizon"]
-		all_lines = all_lines[1:]
+		#all_lines = all_lines[1:]
 		all_lines = all_lines[(all_lines["X"]!=0)] # & (all_lines["X"]!=None)]
 		for i in range(1,4) :
 			all_lines[all_lines.columns[i]] = [ str(x).replace(",",".") if isinstance(x, str) else x for x in all_lines[list(all_lines.columns)[i]] ]
