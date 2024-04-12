@@ -260,8 +260,8 @@ if file_up :
 		with tab2.expander("all lines"):
 			all_lines
 	
-	def convert_df(df):
-		return df.to_csv(index=False, header=False).encode('ISO-8859-1')
+	def convert_df(df, header=True):
+		return df.to_csv(index=False, header=header).encode('ISO-8859-1')
 	
 	import io, zipfile
 	buf = io.BytesIO()
@@ -269,8 +269,8 @@ if file_up :
 		csv_zip.writestr("POINTS.csv", convert_df(all_points))
 		csv_zip.writestr("LIGNES.csv", convert_df(all_lines))
 		for key in dict_str_clean_pt :
-			csv_zip.writestr(f"P_{key}.str", convert_df(dict_str_clean_pt[key]["df"]))
+			csv_zip.writestr(f"P_{key}.str", convert_df(dict_str_clean_pt[key]["df"], header=False))
 		for key in dict_str_clean_line :
-			csv_zip.writestr(f"L_{key}.str", convert_df(dict_str_clean_line[key]["df"]))
+			csv_zip.writestr(f"L_{key}.str", convert_df(dict_str_clean_line[key]["df"], header=False))
 
 	st.download_button(label="Download zip", data=buf.getvalue(), file_name="CSV+STR.zip", mime="application/zip")
