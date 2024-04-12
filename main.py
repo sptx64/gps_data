@@ -206,6 +206,7 @@ if file_up :
 		df
 	
 	df_line, df_point = df[df["Point Name"].str.startswith("Line")], df[~df["Point Name"].str.startswith("Line")]
+	
 	def convert_df(df):
 		return df.to_csv(index=False, header=False).encode('utf-8')
 	
@@ -260,7 +261,7 @@ if file_up :
 			all_lines
 	
 	def convert_df(df):
-		return df.to_csv(index=False).encode('ISO-8859-1')
+		return df.to_csv(index=False, header=False).encode('ISO-8859-1')
 	
 	import io, zipfile
 	buf = io.BytesIO()
