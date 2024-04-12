@@ -262,6 +262,7 @@ if file_up :
 		all_lines = all_lines[(all_lines["X"]!=0)] # & (all_lines["X"]!=None)]
 		dict_str = {"HA":1, "LR":2, "LJ":3, "LT":4, "S_Fo":5, "S_Mo":6, "S_fa":7, "BDR":8}
 		all_lines.insert(1, "STR", all_lines["Horizon"].map(dict_str))
+		all_lines.loc[all_lines["Horizon"].isna(), "Horizon"] = 8
 		for i in range(1,4) :
 			all_lines[all_lines.columns[i]] = [ str(x).replace(",",".") if isinstance(x, str) else x for x in all_lines[list(all_lines.columns)[i]] ]
 
