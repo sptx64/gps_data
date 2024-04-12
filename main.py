@@ -233,6 +233,10 @@ if file_up :
 		
 		all_points = all_points[1:]
 		all_points = all_points[(all_points["X"]!=0)]
+		
+		for i in range(1,4) :
+        	all_points[all_points.columns[i]] = [ str(x).replace(",",".") if isinstance(x, str) else x for x in all_points[i] ]
+		
 		with tab2.expander("all points"):
 			all_points
 
@@ -256,6 +260,10 @@ if file_up :
 		all_lines.columns = ["Point Ligne", "Y", "X", "Z","Chantier","Niveau","Date","Horizon"]
 		all_lines = all_lines[1:]
 		all_lines = all_lines[(all_lines["X"]!=0)] # & (all_lines["X"]!=None)]
+
+		for i in range(1,4) :
+        	all_lines[all_lines.columns[i]] = [ str(x).replace(",",".") if isinstance(x, str) else x for x in all_lines[i] ]
+
 		
 		with tab2.expander("all lines"):
 			all_lines
