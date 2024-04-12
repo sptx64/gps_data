@@ -276,15 +276,13 @@ if file_up :
 	import io, zipfile
 	buf = io.BytesIO()
 	with zipfile.ZipFile(buf, "x") as csv_zip:
-		if not all_points.empty:
+		if "all_points" in locals():
 			csv_zip.writestr("POINTS.csv", convert_df(all_points))
-		if not all_lines.empty:
+		if "all_lines" in locals():
 			csv_zip.writestr("LIGNES.csv", convert_df(all_lines))
 		for key in dict_str_clean_pt :
-			if not dict_str_clean_pt[key]["df"].empty :
-				csv_zip.writestr(f"P_{key}.str", convert_df(dict_str_clean_pt[key]["df"], header=False))
+			csv_zip.writestr(f"P_{key}.str", convert_df(dict_str_clean_pt[key]["df"], header=False))
 		for key in dict_str_clean_line :
-			if not dict_str_clean_line[key]["df"].empty :
-				csv_zip.writestr(f"L_{key}.str", convert_df(dict_str_clean_line[key]["df"], header=False))
+			csv_zip.writestr(f"L_{key}.str", convert_df(dict_str_clean_line[key]["df"], header=False))
 
 	st.download_button(label="Download zip", data=buf.getvalue(), file_name="CSV+STR.zip", mime="application/zip")
