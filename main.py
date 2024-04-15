@@ -273,17 +273,19 @@ if file_up :
 	
 	def convert_df(df, header=True):
 		return df.to_csv(index=False, header=header).encode('ISO-8859-1')
+
+	date_output = fname.replace("PDF","").replace("pdf","").replace(".csv","")
 	
 	import io, zipfile
 	buf = io.BytesIO()
 	with zipfile.ZipFile(buf, "x") as csv_zip:
 		if "all_points" in locals():
-			csv_zip.writestr("POINTS.csv", convert_df(all_points))
+			csv_zip.writestr(f"POINTS_{date_output}.csv", convert_df(all_points))
 		if "all_lines" in locals():
-			csv_zip.writestr("LIGNES.csv", convert_df(all_lines))
+			csv_zip.writestr(f"LIGNES_{date_output}.csv", convert_df(all_lines))
 		for key in dict_str_clean_pt :
-			csv_zip.writestr(f"P_{key}.str", convert_df(dict_str_clean_pt[key]["df"], header=False))
+			csv_zip.writestr(f"P{date_output}_{key}.str", convert_df(dict_str_clean_pt[key]["df"], header=False))
 		for key in dict_str_clean_line :
-			csv_zip.writestr(f"L_{key}.str", convert_df(dict_str_clean_line[key]["df"], header=False))
+			csv_zip.writestr(f"L{date_output}_{key}.str", convert_df(dict_str_clean_line[key]["df"], header=False))
 
 	st.download_button(label="Download zip", data=buf.getvalue(), file_name="CSV+STR.zip", mime="application/zip")
