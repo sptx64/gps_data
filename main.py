@@ -275,6 +275,7 @@ if file_up :
 		return df.to_csv(index=False, header=header).encode('ISO-8859-1')
 
 	date_output = fname.replace("PDF","").replace("pdf","").replace(".csv","")
+	tab2.write(date_output)
 	
 	import io, zipfile
 	buf = io.BytesIO()
