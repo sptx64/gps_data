@@ -155,7 +155,7 @@ def line_str_format(dfl, fname) :
     res=[]
     first_line=[]
     fdate=dfl[2].values[0]
-	fdate,
+    tab2.write(fdate)
     for i in range(len(column_names)) :
         if i == 0 :
             first_line.append(fname)
