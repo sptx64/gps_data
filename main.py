@@ -235,7 +235,7 @@ if file_up :
 		#all_points = all_points[1:]
 		all_points = all_points[(all_points["X"]!=0)]
 		
-		for i in range(1,4) :
+		for i in range(2,5) :
 			all_points[list(all_points.columns)[i]] = [ str(x).replace(",",".") if isinstance(x, str) else x for x in all_points[list(all_points.columns)[i]] ]
 		
 		with tab2.expander("all points"):
