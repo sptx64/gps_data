@@ -136,7 +136,7 @@ def point_str_format(dfp, fname) :
 
 def line_cleaning(dfl, fname):
     dict_str = {"HA":1, "LR":2, "LJ":3, "LT":4, "S_Fo":5, "S_Mo":6, "S_fa":7, "BDR":8}
-    for t in range(len(0,10)) :
+    for t in range(0,10) :
         df1["Point Code"]=df1["Point Code"].str.replace(f"t","")
     dfl["str"]=dfl["Point Code"].map(dict_str)
 
