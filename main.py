@@ -47,6 +47,7 @@ def point_cleaning(dfp, fname) :
     dfp["str"]=1
     dfp.loc[dfp["str"].isna(), "str"]=0
     dfp[2] = [x + y/10 if isinstance(y, int) else x for x,y in zip(dfp[2],dfp[3])]
+    st.write(dfp)
     cn = ["str", "Northing", "Easting", "Elevation", "Point Name", 1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     column_names = [ x for x in cn if x in dfp ]
     dfp = dfp[column_names]
