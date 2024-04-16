@@ -298,4 +298,4 @@ if file_up :
 		for key in dict_str_clean_line :
 			csv_zip.writestr(f"L{date_output}_{key}.str", convert_df(dict_str_clean_line[key]["df"], header=False))
 
-	st.download_button(label="Download zip", data=buf.getvalue(), file_name="CSV+STR.zip", mime="application/zip")
+	st.download_button(label="Download zip", data=buf.getvalue(), file_name=f"CSV+STR_{fname.replace(".csv","")}.zip", mime="application/zip")
