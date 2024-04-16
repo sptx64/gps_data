@@ -144,7 +144,7 @@ def line_cleaning(dfl, fname):
     dfl["str"]=dfl["Point Code"].map(dict_str)
 
     dfl.loc[dfl["str"].isna(), "str"]=8
-    dfl[3] = [float(f"{x}.{y}") if y != None else x for x,y in zip(dfp[3],dfp[4])]
+    dfl[3] = [float(f"{x}.{y}") if y != None else x for x,y in zip(dfl[3],dfl[4])]
     
     column_names = ["str", "Northing", "Easting", "Elevation", "Point Name", 1, 2, 3, 4, "Point Code"]
     return dfl[column_names]
